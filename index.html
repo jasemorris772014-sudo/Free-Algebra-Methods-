@@ -10,6 +10,7 @@
         body { 
             background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; 
             margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
+            overflow: hidden;
         }
 
         .site-logo {
@@ -25,7 +26,6 @@
             max-width: 400px; width: 90%;
         }
         
-        /* High-quality logo from the working source */
         .game-icon { width: 120px; height: 120px; border-radius: 20px; margin-bottom: 20px; object-fit: cover; }
 
         .btn-start {
@@ -63,7 +63,9 @@
     <script>
         function openGame() {
             const frame = document.getElementById('gameFrame');
-            // Using the main link you confirmed is working in your screenshot
+            /* IMPORTANT: This link matches the working site in your screenshot. 
+               It will load the full game list, and you can click 1v1.LOL inside the frame.
+            */
             frame.src = "https://free-algebra-practice.netlify.app/"; 
             document.getElementById('gameOverlay').style.display = 'flex';
         }

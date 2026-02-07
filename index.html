@@ -25,6 +25,7 @@
             max-width: 400px; width: 90%;
         }
         
+        /* High-quality logo from the working source */
         .game-icon { width: 120px; height: 120px; border-radius: 20px; margin-bottom: 20px; object-fit: cover; }
 
         .btn-start {
@@ -62,8 +63,8 @@
     <script>
         function openGame() {
             const frame = document.getElementById('gameFrame');
-            // This is the specific path used by Shuttle Math from your screenshot
-            frame.src = "https://shuttle-math.netlify.app/games/1v1.lol/"; 
+            // Using the main link you confirmed is working in your screenshot
+            frame.src = "https://free-algebra-practice.netlify.app/"; 
             document.getElementById('gameOverlay').style.display = 'flex';
         }
         function closeGame() {

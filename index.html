@@ -5,55 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Algebra Practice</title>
     <style>
-        /* Force a clean white background across the whole app */
+        /* Global Reset */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
             background-color: #ffffff;
-            overflow: hidden; /* Prevents double scrollbars */
-            font-family: sans-serif;
+            overflow: hidden;
         }
 
-        /* The Logo Overlay */
-        .app-logo {
+        /* The Branding Patch */
+        /* This covers their logo and name completely */
+        .brand-overlay {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 120px; /* Adjust size to your liking */
-            height: auto;
-            z-index: 100; /* Ensures it stays on top of the math content */
-            background-color: #ffffff; /* Matches logo background */
-            padding: 5px;
-            border-radius: 8px;
-            pointer-events: none; /* Allows user to click through the logo if needed */
+            top: 0;
+            left: 0;
+            width: 260px; /* Wide enough to cover "Shuttle Math" text */
+            height: 70px;  /* Tall enough to cover their header bar height */
+            background-color: #ffffff; 
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
         }
 
-        /* The Shuttle Math Container (In-App Browser Effect) */
-        #shuttle-container {
+        .brand-overlay img {
+            height: 55px; /* Scaled to fit neatly in the header */
+            width: auto;
+        }
+
+        /* The Shuttle Math Site Container */
+        #shuttle-frame {
             border: none;
             width: 100%;
             height: 100vh;
-            display: block;
-        }
-
-        /* Branding Bar (Optional: helpful if the logo covers math text) */
-        .header-spacer {
-            height: 60px;
-            background: #ffffff;
-            width: 100%;
         }
     </style>
 </head>
 <body>
 
-    <img src="image_46ca63.png" alt="Free Algebra Practice Logo" class="app-logo">
+    <div class="brand-overlay">
+        <img src="image_46ca63.png" alt="Free Algebra Practice">
+    </div>
 
     <iframe 
-        id="shuttle-container" 
-        src="https://shuttlemath.com" 
-        title="Shuttle Math Content">
+        id="shuttle-frame" 
+        src="https://shuttlemath.com">
     </iframe>
 
 </body>

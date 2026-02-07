@@ -3,127 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Algebra Logic Systems</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <title>Free Algebra Practice</title>
     <style>
-        :root { --bg: #0b1120; --card: #1e293b; --accent: #10b981; --text: #f8fafc; }
-        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; margin: 0; }
-        
-        header { padding: 60px 20px 20px; text-align: center; background: linear-gradient(to bottom, #111827, var(--bg)); }
-        
-        /* A-Z Navigation Bar */
-        .az-nav { 
-            display: flex; justify-content: center; flex-wrap: wrap; 
-            gap: 8px; padding: 20px; position: sticky; top: 0; 
-            background: var(--bg); z-index: 100; border-bottom: 1px solid #334155;
+        /* Force a clean white background across the whole app */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #ffffff;
+            overflow: hidden; /* Prevents double scrollbars */
+            font-family: sans-serif;
         }
-        .nav-letter { 
-            padding: 8px 12px; background: var(--card); border-radius: 6px; 
-            cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.2s;
-        }
-        .nav-letter:hover { background: var(--accent); color: white; }
 
-        /* The Grid */
-        .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-            gap: 20px; padding: 40px; max-width: 1400px; margin: 0 auto; 
+        /* The Logo Overlay */
+        .app-logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 120px; /* Adjust size to your liking */
+            height: auto;
+            z-index: 100; /* Ensures it stays on top of the math content */
+            background-color: #ffffff; /* Matches logo background */
+            padding: 5px;
+            border-radius: 8px;
+            pointer-events: none; /* Allows user to click through the logo if needed */
         }
-        .tile { 
-            background: var(--card); border-radius: 12px; overflow: hidden;
-            cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #334155;
-        }
-        .tile:hover { transform: scale(1.05); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .tile img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #0f172a; }
-        .tile-info { padding: 12px; text-align: center; font-size: 0.75rem; font-weight: 600; line-height: 1.2; }
 
-        /* Fullscreen Overlay */
-        #overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 2000; flex-direction: column;
+        /* The Shuttle Math Container (In-App Browser Effect) */
+        #shuttle-container {
+            border: none;
+            width: 100%;
+            height: 100vh;
+            display: block;
         }
-        .controls { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #0f172a; }
-        .exit-btn { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        iframe { flex-grow: 1; border: none; width: 100%; height: 100%; }
+
+        /* Branding Bar (Optional: helpful if the logo covers math text) */
+        .header-spacer {
+            height: 60px;
+            background: #ffffff;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Computational Logic Index</h1>
-    <p>Select a module to begin simulation</p>
-</header>
+    <img src="image_46ca63.png" alt="Free Algebra Practice Logo" class="app-logo">
 
-<div class="az-nav" id="azNav">
-    </div>
-
-<div class="grid" id="gameGrid">
-    </div>
-
-<div id="overlay">
-    <div class="controls">
-        <span id="moduleName" style="font-weight: bold; color: #94a3b8;">MODULE LOADING...</span>
-        <button class="exit-btn" onclick="closeGame()">EXIT MODULE</button>
-    </div>
-    <iframe id="gameFrame" src=""></iframe>
-</div>
-
-<script>
-    // Database of games (You can keep adding to this list)
-    const games = [
-        { name: "1v1.LOL", letter: "1", url: "https://docs-v2.github.io/1v1.lol/", icon: "https://raw.githubusercontent.com/docs-v2/1v1.lol/main/logo.png" },
-        { name: "2048", letter: "2", url: "https://play2048.co/", icon: "https://upload.wikimedia.org/wikipedia/commons/1/18/2048_logo.svg" },
-        { name: "Agar.io", letter: "A", url: "https://agar.io/", icon: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Agar.io_Logo.png" },
-        { name: "BitLife", letter: "B", url: "https://bitlife-online.github.io/", icon: "https://bitlife-online.github.io/apple-touch-icon.png" },
-        { name: "Cookie Clicker", letter: "C", url: "https://orteil.dashnet.org/cookieclicker/", icon: "https://orteil.dashnet.org/cookieclicker/img/cookie.png" },
-        { name: "Diep.io", letter: "D", url: "https://diep.io/", icon: "https://static.wikia.nocookie.net/logopedia/images/b/be/Diep.io_2022_icon.png" },
-        { name: "Henry Stickmin", letter: "H", url: "https://precisestatistics.github.io/hstickmin/", icon: "https://raw.githubusercontent.com/PreciseStatistics/hstickmin/main/icon.png" },
-        { name: "Retro Bowl", letter: "R", url: "https://re-bowl.github.io/", icon: "https://raw.githubusercontent.com/re-bowl/re-bowl.github.io/main/apple-touch-icon.png" },
-        { name: "Slope", letter: "S", url: "https://slope-unblocked-games.github.io/", icon: "https://slope-unblocked-games.github.io/favicon.png" }
-    ];
-
-    const nav = document.getElementById('azNav');
-    const grid = document.getElementById('gameGrid');
-    const letters = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-    // Create Navigation
-    letters.forEach(l => {
-        const span = document.createElement('div');
-        span.className = 'nav-letter';
-        span.innerText = l;
-        span.onclick = () => filterGames(l);
-        nav.appendChild(span);
-    });
-
-    function filterGames(filter) {
-        grid.innerHTML = "";
-        const filtered = games.filter(g => filter === "#" ? !isNaN(g.letter) : g.letter === filter);
-        
-        filtered.forEach(game => {
-            const tile = document.createElement('div');
-            tile.className = 'tile';
-            tile.onclick = () => openGame(game.url, game.name);
-            tile.innerHTML = `
-                <img src="${game.icon}" onerror="this.src='https://via.placeholder.com/150/1e293b/ffffff?text=${game.name}'">
-                <div class="tile-info">Module: Algebra Logic (${game.name})</div>
-            `;
-            grid.appendChild(tile);
-        });
-    }
-
-    function openGame(url, name) {
-        document.getElementById('moduleName').innerText = "RUNNING: " + name;
-        document.getElementById('gameFrame').src = url;
-        document.getElementById('overlay').style.display = 'flex';
-    }
-
-    function closeGame() {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('gameFrame').src = "";
-    }
-
-    // Initialize with all games
-    filterGames("A");
-</script>
+    <iframe 
+        id="shuttle-container" 
+        src="https://shuttlemath.com" 
+        title="Shuttle Math Content">
+    </iframe>
 
 </body>
 </html>

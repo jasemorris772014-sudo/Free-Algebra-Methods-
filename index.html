@@ -7,117 +7,73 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #0b0f1a; --card: #161b2a; --accent: #22c55e; --text: #f1f5f9; }
-        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; margin: 0; }
+        body { 
+            background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; 
+            margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
+        }
 
         .site-logo {
-            position: fixed; top: 20px; left: 20px; z-index: 1000;
+            position: fixed; top: 20px; left: 20px;
             background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: white; padding: 12px 24px; border-radius: 50px;
             font-weight: 800; text-decoration: none; font-size: 1.1rem;
-            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
         }
 
-        header { padding: 120px 20px 40px; text-align: center; }
-
-        .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-            gap: 25px; padding: 40px; max-width: 1200px; margin: 0 auto; 
+        /* Single Action Card */
+        .start-card {
+            background: var(--card); border-radius: 24px; padding: 40px; text-align: center;
+            border: 2px solid #222; transition: 0.3s; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            max-width: 400px;
         }
-        .tile { 
-            background: var(--card); border-radius: 18px; overflow: hidden;
-            cursor: pointer; transition: 0.3s ease; border: 1px solid #222;
-        }
-        .tile:hover { transform: translateY(-8px); border-color: var(--accent); }
-        .tile img { width: 100%; aspect-ratio: 16/10; object-fit: cover; background: #000; }
-        .tile-info { padding: 15px; text-align: center; font-size: 0.85rem; font-weight: bold; color: #94a3b8; }
+        .start-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        
+        .game-icon { width: 120px; height: 120px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
 
+        .btn-start {
+            background: var(--accent); color: white; border: none; padding: 18px 40px;
+            border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.2s;
+            width: 100%;
+        }
+        .btn-start:hover { background: #16a34a; transform: scale(1.02); }
+
+        /* The Hidden Game Overlay */
         #gameOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 2000; flex-direction: column;
         }
-        .controls { display: flex; justify-content: space-between; padding: 15px 30px; background: #111; }
-        .iframe-container { flex-grow: 1; position: relative; }
-        #spinner {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; border: 5px solid #222; border-top-color: var(--accent);
-            border-radius: 50%; animation: spin 1s infinite linear;
-        }
-        @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-        iframe { width: 100%; height: 100%; border: none; opacity: 0; transition: 0.5s; }
-        .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; color: white; }
-        .close-btn { background: #ef4444; }
-        .fs-btn { background: var(--accent); margin-right: 10px; }
+        .controls { display: flex; justify-content: flex-end; padding: 15px; background: #111; }
+        .exit-btn { background: #ef4444; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
-    <a href="#" class="site-logo">📐 ALGEBRA PRO</a>
+    <div class="site-logo">📐 ALGEBRA PRO</div>
 
-    <header>
-        <h1>Logic Modules</h1>
-        <p>Interactive Computational Study Tools</p>
-    </header>
-
-    <div class="grid">
-        <div class="tile" onclick="openGame('https://re-bowl.github.io/')">
-            <img src="https://raw.githubusercontent.com/re-bowl/re-bowl.github.io/main/apple-touch-icon.png">
-            <div class="tile-info">Module: Data and Statistics (Retro Bowl)</div>
-        </div>
-
-        <div class="tile" onclick="openGame('https://raw.githack.com/The-Henry-Stickmin-Collection/Henry-Stickmin/main/index.html')">
-            <img src="https://static.wikia.nocookie.net/henrystickmin/images/0/07/HenryStickmin.png/revision/latest/scale-to-width-down/250?cb=20200828155556">
-            <div class="tile-info">Module: Sequential Logic (Henry Stickmin)</div>
-        </div>
-
-        <div class="tile" onclick="openGame('https://raw.githack.com/3kh0/3kh0-assets/main/1v1-lol/index.html')">
-            <img src="https://play-lh.googleusercontent.com/669O481N7Gf_S6_L2L_V4A8eXG6r6u8_N8_29_M8_N8_29_M8_N8_29_M8">
-            <div class="tile-info">Module: 3D Spatial Plane (1v1.LOL)</div>
-        </div>
-
-        <div class="tile" onclick="openGame('https://raw.githack.com/smashkarts-unblocked/smashkarts-unblocked.github.io/main/index.html')">
-            <img src="https://play-lh.googleusercontent.com/3Xo392k_S7f9_X_7A9S_S8_S9_S_S_S_S_S_S_S_S_S_S">
-            <div class="tile-info">Module: Vector Velocity (Smash Karts)</div>
-        </div>
+    <div class="start-card">
+        <img src="https://shuttle-math.netlify.app/logos/1v1.lol.png" class="game-icon" alt="Logic Module">
+        <h2 style="margin: 10px 0;">Spatial Geometry Lab</h2>
+        <p style="color: #94a3b8; margin-bottom: 30px;">Module: 3D Computational Reasoning</p>
+        <button class="btn-start" onclick="openGame()">CLICK HERE TO GET STARTED!!</button>
     </div>
 
     <div id="gameOverlay">
         <div class="controls">
-            <span style="font-weight:bold; color:#64748b">MODULE ACTIVE</span>
-            <div>
-                <button class="btn fs-btn" onclick="goFull()">FULLSCREEN</button>
-                <button class="btn close-btn" onclick="closeGame()">EXIT MODULE</button>
-            </div>
+            <button class="exit-btn" onclick="closeGame()">EXIT STUDY MODULE</button>
         </div>
-        <div class="iframe-container">
-            <div id="spinner"></div>
-            <iframe id="gameFrame" src="" allowfullscreen></iframe>
-        </div>
+        <iframe id="gameFrame" src=""></iframe>
     </div>
 
     <script>
-        const overlay = document.getElementById('gameOverlay');
-        const frame = document.getElementById('gameFrame');
-        const spinner = document.getElementById('spinner');
-
-        function openGame(url) {
-            spinner.style.display = 'block';
-            frame.style.opacity = '0';
-            frame.src = url;
-            overlay.style.display = 'flex';
-            frame.onload = () => {
-                spinner.style.display = 'none';
-                frame.style.opacity = '1';
-            };
+        function openGame() {
+            const frame = document.getElementById('gameFrame');
+            // This pulls specifically from the working Netlify link in your screenshot
+            frame.src = "https://shuttle-math.netlify.app/games/1v1.lol/index.html"; 
+            document.getElementById('gameOverlay').style.display = 'flex';
         }
-
         function closeGame() {
-            overlay.style.display = 'none';
-            frame.src = '';
-        }
-
-        function goFull() {
-            if (frame.requestFullscreen) frame.requestFullscreen();
-            else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+            document.getElementById('gameOverlay').style.display = 'none';
+            document.getElementById('gameFrame').src = '';
         }
     </script>
 </body>

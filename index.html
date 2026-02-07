@@ -3,76 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Algebra Practice</title>
+    <title>Advanced Algebra Logic Systems</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0b0f1a; --card: #161b2a; --accent: #22c55e; --text: #f1f5f9; }
-        body { 
-            background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; 
-            margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
-            overflow: hidden;
-        }
-
-        .site-logo {
-            position: fixed; top: 20px; left: 20px;
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            color: white; padding: 12px 24px; border-radius: 50px;
-            font-weight: 800; text-decoration: none; font-size: 1.1rem;
-        }
-
-        .start-card {
-            background: var(--card); border-radius: 24px; padding: 40px; text-align: center;
-            border: 2px solid #222; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            max-width: 400px; width: 90%;
-        }
+        :root { --bg: #0b1120; --card: #1e293b; --accent: #10b981; --text: #f8fafc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; margin: 0; }
         
-        .game-icon { width: 120px; height: 120px; border-radius: 20px; margin-bottom: 20px; object-fit: cover; }
-
-        .btn-start {
-            background: var(--accent); color: white; border: none; padding: 18px 40px;
-            border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%;
+        header { padding: 60px 20px 20px; text-align: center; background: linear-gradient(to bottom, #111827, var(--bg)); }
+        
+        /* A-Z Navigation Bar */
+        .az-nav { 
+            display: flex; justify-content: center; flex-wrap: wrap; 
+            gap: 8px; padding: 20px; position: sticky; top: 0; 
+            background: var(--bg); z-index: 100; border-bottom: 1px solid #334155;
         }
+        .nav-letter { 
+            padding: 8px 12px; background: var(--card); border-radius: 6px; 
+            cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.2s;
+        }
+        .nav-letter:hover { background: var(--accent); color: white; }
 
-        #gameOverlay {
+        /* The Grid */
+        .grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            gap: 20px; padding: 40px; max-width: 1400px; margin: 0 auto; 
+        }
+        .tile { 
+            background: var(--card); border-radius: 12px; overflow: hidden;
+            cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #334155;
+        }
+        .tile:hover { transform: scale(1.05); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .tile img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #0f172a; }
+        .tile-info { padding: 12px; text-align: center; font-size: 0.75rem; font-weight: 600; line-height: 1.2; }
+
+        /* Fullscreen Overlay */
+        #overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 2000; flex-direction: column;
         }
-        .controls { display: flex; justify-content: flex-end; padding: 15px; background: #111; }
-        .exit-btn { background: #ef4444; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        iframe { width: 100%; height: 100%; border: none; }
+        .controls { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #0f172a; }
+        .exit-btn { background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        iframe { flex-grow: 1; border: none; width: 100%; height: 100%; }
     </style>
 </head>
 <body>
 
-    <div class="site-logo">📐 ALGEBRA PRO</div>
+<header>
+    <h1>Computational Logic Index</h1>
+    <p>Select a module to begin simulation</p>
+</header>
 
-    <div class="start-card">
-        <img src="https://shuttle-math.netlify.app/logos/1v1.lol.png" class="game-icon" alt="Geometry Module">
-        <h2 style="margin: 10px 0;">Spatial Geometry Lab</h2>
-        <p style="color: #94a3b8; margin-bottom: 30px;">Module: 3D Computational Reasoning</p>
-        <button class="btn-start" onclick="openGame()">CLICK HERE TO GET STARTED!!</button>
+<div class="az-nav" id="azNav">
     </div>
 
-    <div id="gameOverlay">
-        <div class="controls">
-            <button class="exit-btn" onclick="closeGame()">EXIT STUDY MODULE</button>
-        </div>
-        <iframe id="gameFrame" src=""></iframe>
+<div class="grid" id="gameGrid">
     </div>
 
-    <script>
-        function openGame() {
-            const frame = document.getElementById('gameFrame');
-            /* IMPORTANT: This link matches the working site in your screenshot. 
-               It will load the full game list, and you can click 1v1.LOL inside the frame.
-            */
-            frame.src = "https://free-algebra-practice.netlify.app/"; 
-            document.getElementById('gameOverlay').style.display = 'flex';
-        }
-        function closeGame() {
-            document.getElementById('gameOverlay').style.display = 'none';
-            document.getElementById('gameFrame').src = '';
-        }
-    </script>
+<div id="overlay">
+    <div class="controls">
+        <span id="moduleName" style="font-weight: bold; color: #94a3b8;">MODULE LOADING...</span>
+        <button class="exit-btn" onclick="closeGame()">EXIT MODULE</button>
+    </div>
+    <iframe id="gameFrame" src=""></iframe>
+</div>
+
+<script>
+    // Database of games (You can keep adding to this list)
+    const games = [
+        { name: "1v1.LOL", letter: "1", url: "https://docs-v2.github.io/1v1.lol/", icon: "https://raw.githubusercontent.com/docs-v2/1v1.lol/main/logo.png" },
+        { name: "2048", letter: "2", url: "https://play2048.co/", icon: "https://upload.wikimedia.org/wikipedia/commons/1/18/2048_logo.svg" },
+        { name: "Agar.io", letter: "A", url: "https://agar.io/", icon: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Agar.io_Logo.png" },
+        { name: "BitLife", letter: "B", url: "https://bitlife-online.github.io/", icon: "https://bitlife-online.github.io/apple-touch-icon.png" },
+        { name: "Cookie Clicker", letter: "C", url: "https://orteil.dashnet.org/cookieclicker/", icon: "https://orteil.dashnet.org/cookieclicker/img/cookie.png" },
+        { name: "Diep.io", letter: "D", url: "https://diep.io/", icon: "https://static.wikia.nocookie.net/logopedia/images/b/be/Diep.io_2022_icon.png" },
+        { name: "Henry Stickmin", letter: "H", url: "https://precisestatistics.github.io/hstickmin/", icon: "https://raw.githubusercontent.com/PreciseStatistics/hstickmin/main/icon.png" },
+        { name: "Retro Bowl", letter: "R", url: "https://re-bowl.github.io/", icon: "https://raw.githubusercontent.com/re-bowl/re-bowl.github.io/main/apple-touch-icon.png" },
+        { name: "Slope", letter: "S", url: "https://slope-unblocked-games.github.io/", icon: "https://slope-unblocked-games.github.io/favicon.png" }
+    ];
+
+    const nav = document.getElementById('azNav');
+    const grid = document.getElementById('gameGrid');
+    const letters = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    // Create Navigation
+    letters.forEach(l => {
+        const span = document.createElement('div');
+        span.className = 'nav-letter';
+        span.innerText = l;
+        span.onclick = () => filterGames(l);
+        nav.appendChild(span);
+    });
+
+    function filterGames(filter) {
+        grid.innerHTML = "";
+        const filtered = games.filter(g => filter === "#" ? !isNaN(g.letter) : g.letter === filter);
+        
+        filtered.forEach(game => {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.onclick = () => openGame(game.url, game.name);
+            tile.innerHTML = `
+                <img src="${game.icon}" onerror="this.src='https://via.placeholder.com/150/1e293b/ffffff?text=${game.name}'">
+                <div class="tile-info">Module: Algebra Logic (${game.name})</div>
+            `;
+            grid.appendChild(tile);
+        });
+    }
+
+    function openGame(url, name) {
+        document.getElementById('moduleName').innerText = "RUNNING: " + name;
+        document.getElementById('gameFrame').src = url;
+        document.getElementById('overlay').style.display = 'flex';
+    }
+
+    function closeGame() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('gameFrame').src = "";
+    }
+
+    // Initialize with all games
+    filterGames("A");
+</script>
+
 </body>
 </html>

@@ -7,75 +7,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #0b0f1a; --card: #161b2a; --accent: #22c55e; --text: #f1f5f9; }
-        
-        body { 
-            background: var(--bg); color: var(--text); 
-            font-family: 'Outfit', sans-serif; margin: 0; overflow-x: hidden;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; margin: 0; }
 
-        /* --- STICKY PRO LOGO --- */
+        /* Corner Logo */
         .site-logo {
             position: fixed; top: 20px; left: 20px; z-index: 1000;
             background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: white; padding: 12px 24px; border-radius: 50px;
             font-weight: 800; text-decoration: none; font-size: 1.1rem;
             box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
-            display: flex; align-items: center; gap: 8px;
-            transition: 0.3s;
         }
-        .site-logo:hover { transform: scale(1.05); }
 
         header { padding: 120px 20px 60px; text-align: center; }
-        h1 { font-size: 3.5rem; margin: 0; letter-spacing: -2px; }
 
-        /* --- GAME GRID --- */
+        /* The Grid */
         .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-            gap: 30px; padding: 0 40px 100px; max-width: 1300px; margin: 0 auto; 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+            gap: 25px; padding: 40px; max-width: 1200px; margin: 0 auto; 
         }
-
         .tile { 
-            background: var(--card); border-radius: 20px; overflow: hidden;
-            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: var(--card); border-radius: 18px; overflow: hidden;
+            cursor: pointer; transition: 0.3s ease; border: 1px solid #222;
         }
-        .tile:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .tile img { width: 100%; aspect-ratio: 1/1; object-fit: cover; filter: brightness(0.9); transition: 0.4s; }
-        .tile:hover img { filter: brightness(1.1); }
-        .tile-name { padding: 15px; font-weight: bold; font-size: 0.9rem; text-align: center; color: #94a3b8; }
+        .tile:hover { transform: translateY(-8px); border-color: var(--accent); }
+        .tile img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+        .tile-info { padding: 15px; text-align: center; font-size: 0.85rem; font-weight: bold; }
 
-        /* --- FULLSCREEN MODAL --- */
+        /* The Game Modal */
         #gameOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 2000; flex-direction: column;
         }
-
-        .controls {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 30px; background: #111; border-bottom: 1px solid #222;
-        }
-
+        .controls { display: flex; justify-content: space-between; padding: 15px 30px; background: #111; }
         .iframe-container { flex-grow: 1; position: relative; }
-
-        /* --- LOADING SPINNER --- */
         #spinner {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 50px; height: 50px; border: 5px solid #222; border-top-color: var(--accent);
             border-radius: 50%; animation: spin 1s infinite linear;
         }
         @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-
-        iframe { width: 100%; height: 100%; border: none; opacity: 0; transition: opacity 0.5s; }
-
-        .btn { padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
+        iframe { width: 100%; height: 100%; border: none; opacity: 0; transition: 0.5s; }
+        .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; color: white; }
         .close-btn { background: #ef4444; }
         .fs-btn { background: var(--accent); margin-right: 10px; }
-        .btn:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
 
-    <a href="#" class="site-logo">📐 ALGEBRA PRO</a>
+    <a href="#" class="logo">📐 ALGEBRA PRO</a>
 
     <header>
         <h1>Logic Modules</h1>
@@ -83,35 +62,40 @@
     </header>
 
     <div class="grid">
-        <div class="tile" onclick="openGame('https://ryanisgoated.github.io/retrobowl-unblocked.github.io/')">
-            <img src="https://img.poki.com/cdn-cgi/image/quality=75,width=204,height=204,fit=cover,f=auto/b2bd12a87570499709a39d2242095f32.png">
-            <div class="tile-name">Module: Applied Physics</div>
+        <div class="tile" onclick="openGame('https://game316335.konggames.com/game.html')">
+            <img src="https://brandfetch.com/retrobowl.ee?view=icon">
+            <div class="tile-info">Module: Data and Statistics (Retro Bowl)</div>
         </div>
 
         <div class="tile" onclick="openGame('https://unblockedgames76-plus.github.io/henry-stickmin/')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/b/b3/Henry_Stickmin_Character_Art.png">
-            <div class="tile-name">Module: Sequential Logic</div>
+            <img src="https://static.wikia.nocookie.net/logopedia/images/b/b5/The_Henry_Stickmin_Collection_Icon.png">
+            <div class="tile-info">Module: Sequential Logic (Henry Stickmin)</div>
         </div>
 
         <div class="tile" onclick="openGame('https://3kh0.github.io/projects/1v1-lol/')">
-            <img src="https://img.poki.com/cdn-cgi/image/quality=75,width=204,height=204,fit=cover,f=auto/460a80479a4087c569f6e6ec143f295e.png">
-            <div class="tile-name">Module: 3D Geometry</div>
+            <img src="https://brandfetch.com/1v1lol.me?view=icon">
+            <div class="tile-info">Module: 3D Spatial Plane (1v1.LOL)</div>
         </div>
 
         <div class="tile" onclick="openGame('https://ghp1tallteam.github.io/')">
-            <img src="https://img.poki.com/cdn-cgi/image/quality=75,width=204,height=204,fit=cover,f=auto/96c483250b868615a6b09337424d1010.png">
-            <div class="tile-name">Module: Vector Navigation</div>
+            <img src="https://static.wikia.nocookie.net/logopedia/images/e/e3/Smash_Karts_Icon.png">
+            <div class="tile-info">Module: Vector Velocity (Smash Karts)</div>
         </div>
 
-        <div class="tile" onclick="openGame('https://slope-unblocked-games.github.io/')">
-            <img src="https://img.poki.com/cdn-cgi/image/quality=75,width=204,height=204,fit=cover,f=auto/043e06a30c053c07f2868ef07399042c.png">
-            <div class="tile-name">Module: Linear Acceleration</div>
+        <div class="tile" onclick="openGame('https://agar.io')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Agar.io_Logo.png">
+            <div class="tile-info">Module: Calculus of Volume (Agar.io)</div>
+        </div>
+
+        <div class="tile" onclick="openGame('https://diep.io')">
+            <img src="https://static.wikia.nocookie.net/logopedia/images/b/be/Diep.io_2022_icon.png">
+            <div class="tile-info">Module: Polyhedral Defense (Diep.io)</div>
         </div>
     </div>
 
     <div id="gameOverlay">
         <div class="controls">
-            <span id="activeTitle" style="font-weight:bold; color:#64748b">MODULE ACTIVE</span>
+            <span style="font-weight:bold; color:#64748b">MODULE ACTIVE</span>
             <div>
                 <button class="btn fs-btn" onclick="goFull()">FULLSCREEN</button>
                 <button class="btn close-btn" onclick="closeGame()">EXIT MODULE</button>
@@ -133,9 +117,6 @@
             frame.style.opacity = '0';
             frame.src = url;
             overlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-
-            // Hide spinner when game loads
             frame.onload = () => {
                 spinner.style.display = 'none';
                 frame.style.opacity = '1';
@@ -145,15 +126,11 @@
         function closeGame() {
             overlay.style.display = 'none';
             frame.src = '';
-            document.body.style.overflow = 'auto';
         }
 
         function goFull() {
             if (frame.requestFullscreen) frame.requestFullscreen();
-            else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
-            else if (frame.msRequestFullscreen) frame.msRequestFullscreen();
         }
     </script>
 </body>
 </html>
-

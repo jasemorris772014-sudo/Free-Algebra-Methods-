@@ -10,6 +10,7 @@
         body { 
             background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; 
             margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
+            overflow: hidden;
         }
 
         .site-logo {
@@ -17,17 +18,17 @@
             background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             color: white; padding: 12px 24px; border-radius: 50px;
             font-weight: 800; text-decoration: none; font-size: 1.1rem;
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
         }
 
-        /* Single Action Card */
         .start-card {
             background: var(--card); border-radius: 24px; padding: 40px; text-align: center;
             border: 2px solid #222; transition: 0.3s; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            max-width: 400px;
+            max-width: 400px; width: 90%;
         }
         .start-card:hover { border-color: var(--accent); transform: translateY(-5px); }
         
-        .game-icon { width: 120px; height: 120px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
+        .game-icon { width: 120px; height: 120px; border-radius: 20px; margin-bottom: 20px; }
 
         .btn-start {
             background: var(--accent); color: white; border: none; padding: 18px 40px;
@@ -36,7 +37,6 @@
         }
         .btn-start:hover { background: #16a34a; transform: scale(1.02); }
 
-        /* The Hidden Game Overlay */
         #gameOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 2000; flex-direction: column;
@@ -51,7 +51,7 @@
     <div class="site-logo">📐 ALGEBRA PRO</div>
 
     <div class="start-card">
-        <img src="https://shuttle-math.netlify.app/logos/1v1.lol.png" class="game-icon" alt="Logic Module">
+        <img src="https://shuttle-math.netlify.app/logos/1v1.lol.png" class="game-icon" alt="Geometry Icon">
         <h2 style="margin: 10px 0;">Spatial Geometry Lab</h2>
         <p style="color: #94a3b8; margin-bottom: 30px;">Module: 3D Computational Reasoning</p>
         <button class="btn-start" onclick="openGame()">CLICK HERE TO GET STARTED!!</button>
@@ -67,8 +67,8 @@
     <script>
         function openGame() {
             const frame = document.getElementById('gameFrame');
-            // This pulls specifically from the working Netlify link in your screenshot
-            frame.src = "https://shuttle-math.netlify.app/games/1v1.lol/index.html"; 
+            // UPDATED LINK: Trying the standard directory path for Shuttle Math
+            frame.src = "https://shuttle-math.netlify.app/games/1v1-lol/"; 
             document.getElementById('gameOverlay').style.display = 'flex';
         }
         function closeGame() {
